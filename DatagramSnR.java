@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,8 +29,10 @@ public class DatagramSnR extends Thread {
 	public static int PORT = 64000;
 	public static int BUFFER_SIZE = 2048;
 	public static String USER_NAME = "Krirk";
+	public static String TEMP_NAME = "Weffy";
 	static DatagramSocket mSocket;
 	static ArrayList<ChatFrame> mChats = new ArrayList<ChatFrame>();
+//	static HashMap<ChatFrame> chatMap = new HashMap<ChatFrame>();
 
 
 
@@ -64,11 +67,11 @@ public class DatagramSnR extends Thread {
         	//checks ArrayList to see if the chat exists
         	boolean chat_exists = false;
         	int index = -1;
-        	System.out.print("about to search");
+//        	System.out.print("about to search");
         	for (int i = 0; i < mChats.size(); i++) {
         		InetAddress chkAddress = mChats.get(i).getAddress();
         		int chkPort = mChats.get(i).getPort();
-        		System.out.println("chk: " + chkPort + " send: " + senderPort);
+//        		System.out.println("chk: " + chkPort + " send: " + senderPort);
         		
         		if (chkAddress.equals(senderAddress) && chkPort == senderPort ) {
         			chat_exists = true;
@@ -77,7 +80,7 @@ public class DatagramSnR extends Thread {
         	} //end for loop
             
             
-        	System.out.println(incMessage);
+//        	System.out.println(incMessage);
             
         	if (chat_exists == true) {
         		//chat exists...use existing frame
@@ -87,10 +90,12 @@ public class DatagramSnR extends Thread {
         		//handles broadcasts directed at me
         		// ex: ????? Krirk
 
+        		
+        		
         		//figure out how to get the user name correct here
 //                String senderName = extractName(incMessage);
-        		System.out.println("print something");
-                String name = "PlaceHolder";
+//        		System.out.println("print something");
+                String name = incMessage.substring(18, incMessage.length());
             	broadcastReply( senderAddress, mSocket );
         		ChatFrame mFrame = new ChatFrame(mSocket, senderAddress, senderPort, name);
         		mFrame.msgRec(incMessage);
@@ -98,7 +103,7 @@ public class DatagramSnR extends Thread {
         	} else if (incMessage.substring(0,  5).equals("#####")) {
         		//what about response to my broadcast??????
             	//##### User's Name
-        		System.out.println("lskjdfklsdjf");
+//        		System.out.println("lskjdfklsdjf");
         		String name = extractName(incMessage);
         		ChatFrame mFrame = new ChatFrame(mSocket, senderAddress, senderPort, name);
         		mFrame.msgRec(incMessage);
@@ -209,7 +214,7 @@ public class DatagramSnR extends Thread {
 	}
 // broadcast protocol when we want to initiate a chat session with a user
 	public static void broadcastProtocol(DatagramSocket mSocket, String name) {
-		String strSearch = "????? " + name;
+		String strSearch = "????? " + name + " ????? " + USER_NAME;
 		
 		String ipAddress = "255.255.255.255";
 		InetAddress address = createInetObj(ipAddress);
