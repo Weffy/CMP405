@@ -13,7 +13,7 @@ You can just comment out whichever out you dont want to use.
 2) Evolution of the broadcast protocol
 You will find that there is two lines that have my broadcast message.  We found that the initial protocol
 was inadequate.  If I was to initate a session with ????? john_doe, and they reply back with 
-##### john_doe ##### <ip_address>, john will never know my name to populate the title bar of his chat window.
+ ##### john_doe ##### <ip_address>, john will never know my name to populate the title bar of his chat window.
 Consequently, we just concat ????? USER_NAME to the end of the broadcast which solves this problem.
 You can just comment out whichever out you dont want to use.
 
